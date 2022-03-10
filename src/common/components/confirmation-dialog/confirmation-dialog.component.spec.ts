@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen, within } from '@testing-library/react';
 import { ConfirmationDialogComponent } from './confirmation-dialog.component'
+
 
 
 describe('ConfirmationDialogComponent component specs', () => {
@@ -9,21 +9,27 @@ describe('ConfirmationDialogComponent component specs', () => {
    it('should call onAgreeClick when it clicks on "Agree" button', () => {
    // Arrange
     const props = {
-      onAccept: jest.fn(),
+      isOpen: jest.fn(),
+      onAccept:jest.fn(),
+      onClose: jest.fn(),
+      title: 'hola',
+      labels: {
+        closeButton: '',
+        acceptButton: '',
+      },
+      children: '',
       };
 
     // Act
-    render(<ConfirmationDialogComponent {...props} />);
+     render(<ConfirmationDialogComponent {...props} />);
 
-      const buttonElement = screen.getByRole('button', {
-      name: /cerrar/i,
-      });
-     userEvent.click(buttonElement);
-
-    const agreeButtonElement = screen.getByRole('button', { name: /agree/i });
-    userEvent.click(agreeButtonElement);
+      const titleElement = screen.getByText(props.title)
 
    // Assert
-     expect(props.onAccept).toHaveBeenCalled();
+
+   expect(titleElement).toBeInTheDocument()
+
    })
   })
+
+
